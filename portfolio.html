@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Browse the portfolio of Cletus Blaze Capture — weddings, portraits, events, and creative photography.">
+  <meta property="og:title" content="Portfolio | Cletus Blaze Capture">
+  <meta property="og:description" content="Moments immortalized. View our collection of luxury photography.">
+  <meta property="og:image" content="logo.svg">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <title>Portfolio | Cletus Blaze Capture</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" media="print" onload="this.media='all'">
+</head>
+<body>
+
+  <div class="page-transition"></div>
+  <div class="preloader"><div class="preloader-spinner"></div></div>
+
+  <nav class="navbar">
+    <a href="index.html" class="logo"><img src="logo.svg" alt="Cletus Blaze Capture" class="logo-img"></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="portfolio.html" class="active">Portfolio</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-toggle" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <section class="page-banner">
+    <h1>Our Portfolio</h1>
+    <p>Moments Immortalized</p>
+  </section>
+
+  <section>
+    <div class="portfolio-filters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="wedding">Wedding</button>
+      <button class="filter-btn" data-filter="portrait">Portrait</button>
+      <button class="filter-btn" data-filter="event">Events</button>
+      <button class="filter-btn" data-filter="baby-shower">Baby Shower</button>
+      <button class="filter-btn" data-filter="interior">Interior</button>
+    </div>
+
+    <div class="portfolio-grid" id="portfolioGrid">
+      <!-- Wedding -->
+      <div class="portfolio-item" data-category="wedding">
+        <img src="images/photo shoot 2/wedding/1.jpeg" alt="Wedding" loading="lazy">
+        <div class="overlay"><span>Wedding</span><h3>Eternal Vows</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="wedding">
+        <img src="images/photo shoot 2/wedding/2.jpeg" alt="Wedding" loading="lazy">
+        <div class="overlay"><span>Wedding</span><h3>Golden Hour</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="wedding">
+        <img src="images/photo shoot 2/wedding/3.jpeg" alt="Wedding" loading="lazy">
+        <div class="overlay"><span>Wedding</span><h3>First Dance</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="wedding">
+        <img src="images/photo shoot 2/wedding/4.jpg" alt="Wedding" loading="lazy">
+        <div class="overlay"><span>Wedding</span><h3>Sacred Moment</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="wedding">
+        <img src="images/photo shoot 2/wedding/5.jpeg" alt="Wedding" loading="lazy">
+        <div class="overlay"><span>Wedding</span><h3>Together Forever</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="wedding">
+        <img src="images/photo shoot 2/wedding/6.jpeg" alt="Wedding" loading="lazy">
+        <div class="overlay"><span>Wedding</span><h3>Blissful Union</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="wedding">
+        <img src="images/photo shoot 2/wedding/7.jpeg" alt="Wedding" loading="lazy">
+        <div class="overlay"><span>Wedding</span><h3>Love Story</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="wedding">
+        <img src="images/photo shoot 2/wedding/8.jpeg" alt="Wedding" loading="lazy">
+        <div class="overlay"><span>Wedding</span><h3>Promise Kept</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="wedding">
+        <img src="images/photo shoot 2/wedding/9.jpeg" alt="Wedding" loading="lazy">
+        <div class="overlay"><span>Wedding</span><h3>Sunset Bliss</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="wedding">
+        <img src="images/photo shoot 2/wedding/10.jpg" alt="Wedding" loading="lazy">
+        <div class="overlay"><span>Wedding</span><h3>Joyful Union</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="wedding">
+        <img src="images/photo shoot 2/wedding/11.jpeg" alt="Wedding" loading="lazy">
+        <div class="overlay"><span>Wedding</span><h3>Grand Ceremony</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="wedding">
+        <img src="images/photo shoot 2/wedding/12.jpg" alt="Wedding" loading="lazy">
+        <div class="overlay"><span>Wedding</span><h3>Ring Exchange</h3></div>
+      </div>
+      <!-- Portrait -->
+      <div class="portfolio-item" data-category="portrait">
+        <img src="images/photo shoot 2/portrait/1.jpeg" alt="Portrait" loading="lazy">
+        <div class="overlay"><span>Portrait</span><h3>Bold & Confident</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="portrait">
+        <img src="images/photo shoot 2/portrait/2.jpeg" alt="Portrait" loading="lazy">
+        <div class="overlay"><span>Portrait</span><h3>Natural Light</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="portrait">
+        <img src="images/photo shoot 2/portrait/3.jpeg" alt="Portrait" loading="lazy">
+        <div class="overlay"><span>Portrait</span><h3>Studio Glow</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="portrait">
+        <img src="images/photo shoot 2/portrait/4.jpeg" alt="Portrait" loading="lazy">
+        <div class="overlay"><span>Portrait</span><h3>Pure Emotion</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="portrait">
+        <img src="images/photo shoot 2/portrait/5.jpeg" alt="Portrait" loading="lazy">
+        <div class="overlay"><span>Portrait</span><h3>Timeless Grace</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="portrait">
+        <img src="images/photo shoot 2/portrait/12.jpg" alt="Portrait" loading="lazy">
+        <div class="overlay"><span>Portrait</span><h3>Elegant Pose</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="portrait">
+        <img src="images/photo shoot 2/portrait/6.jpeg" alt="Portrait" loading="lazy">
+        <div class="overlay"><span>Portrait</span><h3>Soft Focus</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="portrait">
+        <img src="images/photo shoot 2/portrait/7.jpeg" alt="Portrait" loading="lazy">
+        <div class="overlay"><span>Portrait</span><h3>Golden Aura</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="portrait">
+        <img src="images/photo shoot 2/portrait/8.jpeg" alt="Portrait" loading="lazy">
+        <div class="overlay"><span>Portrait</span><h3>Radiant Beauty</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="portrait">
+        <img src="images/photo shoot 2/portrait/13.jpg" alt="Portrait" loading="lazy">
+        <div class="overlay"><span>Portrait</span><h3>Classic Frame</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="portrait">
+        <img src="images/photo shoot 2/portrait/14.jpg" alt="Portrait" loading="lazy">
+        <div class="overlay"><span>Portrait</span><h3>Urban Edge</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="portrait">
+        <img src="images/photo shoot 2/portrait/15.jpg" alt="Portrait" loading="lazy">
+        <div class="overlay"><span>Portrait</span><h3>Dramatic Light</h3></div>
+      </div>
+      <!-- Events -->
+      <div class="portfolio-item" data-category="event">
+        <img src="images/photo shoot 2/Event/1.jpg" alt="Event" loading="lazy">
+        <div class="overlay"><span>Event</span><h3>Grand Affair</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="event">
+        <img src="images/photo shoot 2/Event/2.jpg" alt="Event" loading="lazy">
+        <div class="overlay"><span>Event</span><h3>Celebration Night</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="event">
+        <img src="images/photo shoot 2/Event/3.jpg" alt="Event" loading="lazy">
+        <div class="overlay"><span>Event</span><h3>Corporate Summit</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="event">
+        <img src="images/photo shoot 2/Event/4.jpg" alt="Event" loading="lazy">
+        <div class="overlay"><span>Event</span><h3>Gala Evening</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="event">
+        <img src="images/photo shoot 2/Event/5.jpg" alt="Event" loading="lazy">
+        <div class="overlay"><span>Event</span><h3>Unforgettable</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="event">
+        <img src="images/photo shoot 2/Event/6.jpg" alt="Event" loading="lazy">
+        <div class="overlay"><span>Event</span><h3>Joyful Moments</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="event">
+        <img src="images/photo shoot 2/Event/7.jpg" alt="Event" loading="lazy">
+        <div class="overlay"><span>Event</span><h3>VIP Night</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="event">
+        <img src="images/photo shoot 2/Event/8.jpg" alt="Event" loading="lazy">
+        <div class="overlay"><span>Event</span><h3>Red Carpet</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="event">
+        <img src="images/photo shoot 2/Event/9.jpg" alt="Event" loading="lazy">
+        <div class="overlay"><span>Event</span><h3>Party Vibes</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="event">
+        <img src="images/photo shoot 2/Event/10.jpg" alt="Event" loading="lazy">
+        <div class="overlay"><span>Event</span><h3>Black Tie</h3></div>
+      </div>
+      <!-- Baby Shower -->
+      <div class="portfolio-item" data-category="baby-shower">
+        <img src="images/photo shoot 2/baby shower/4.jpeg" alt="Baby Shower" loading="lazy">
+        <div class="overlay"><span>Baby Shower</span><h3>Bundle of Joy</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="baby-shower">
+        <img src="images/photo shoot 2/baby shower/6.jpeg" alt="Baby Shower" loading="lazy">
+        <div class="overlay"><span>Baby Shower</span><h3>Sweet Arrival</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="baby-shower">
+        <img src="images/photo shoot 2/baby shower/7.jpeg" alt="Baby Shower" loading="lazy">
+        <div class="overlay"><span>Baby Shower</span><h3>New Beginnings</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="baby-shower">
+        <img src="images/photo shoot 2/baby shower/9.jpeg" alt="Baby Shower" loading="lazy">
+        <div class="overlay"><span>Baby Shower</span><h3>Celebrating Life</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="baby-shower">
+        <img src="images/photo shoot 2/baby shower/10.jpeg" alt="Baby Shower" loading="lazy">
+        <div class="overlay"><span>Baby Shower</span><h3>Precious Moments</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="baby-shower">
+        <img src="images/photo shoot 2/baby shower/11.jpeg" alt="Baby Shower" loading="lazy">
+        <div class="overlay"><span>Baby Shower</span><h3>Little Blessing</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="baby-shower">
+        <img src="images/photo shoot 2/baby shower/12.jpeg" alt="Baby Shower" loading="lazy">
+        <div class="overlay"><span>Baby Shower</span><h3>Tiny Miracle</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="baby-shower">
+        <img src="images/photo shoot 2/baby shower/13.jpeg" alt="Baby Shower" loading="lazy">
+        <div class="overlay"><span>Baby Shower</span><h3>Pink & Blue</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="baby-shower">
+        <img src="images/photo shoot 2/baby shower/14.jpeg" alt="Baby Shower" loading="lazy">
+        <div class="overlay"><span>Baby Shower</span><h3>Family Love</h3></div>
+      </div>
+      <!-- Interior -->
+      <div class="portfolio-item" data-category="interior">
+        <img src="images/photo shoot 2/interior/1.jpg" alt="Interior" loading="lazy">
+        <div class="overlay"><span>Interior</span><h3>Modern Elegance</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="interior">
+        <img src="images/photo shoot 2/interior/2.jpg" alt="Interior" loading="lazy">
+        <div class="overlay"><span>Interior</span><h3>Clean Lines</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="interior">
+        <img src="images/photo shoot 2/interior/3.jpg" alt="Interior" loading="lazy">
+        <div class="overlay"><span>Interior</span><h3>Warm Spaces</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="interior">
+        <img src="images/photo shoot 2/interior/4.jpg" alt="Interior" loading="lazy">
+        <div class="overlay"><span>Interior</span><h3>Design Details</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="interior">
+        <img src="images/photo shoot 2/interior/5.jpg" alt="Interior" loading="lazy">
+        <div class="overlay"><span>Interior</span><h3>Luxury Living</h3></div>
+      </div>
+      <div class="portfolio-item" data-category="interior">
+        <img src="images/photo shoot 2/interior/6.jpg" alt="Interior" loading="lazy">
+        <div class="overlay"><span>Interior</span><h3>Artful Spaces</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="interior">
+        <img src="images/photo shoot 2/interior/7.jpg" alt="Interior" loading="lazy">
+        <div class="overlay"><span>Interior</span><h3>Cozy Corner</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="interior">
+        <img src="images/photo shoot 2/interior/8.jpg" alt="Interior" loading="lazy">
+        <div class="overlay"><span>Interior</span><h3>Open Plan</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="interior">
+        <img src="images/photo shoot 2/interior/9.jpg" alt="Interior" loading="lazy">
+        <div class="overlay"><span>Interior</span><h3>Minimalist</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="interior">
+        <img src="images/photo shoot 2/interior/10.jpg" alt="Interior" loading="lazy">
+        <div class="overlay"><span>Interior</span><h3>Statement Piece</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="interior">
+        <img src="images/photo shoot 2/interior/11.jpg" alt="Interior" loading="lazy">
+        <div class="overlay"><span>Interior</span><h3>Light & Airy</h3></div>
+      </div>
+      <div class="portfolio-item hidden-item" data-category="interior">
+        <img src="images/photo shoot 2/interior/12.jpg" alt="Interior" loading="lazy">
+        <div class="overlay"><span>Interior</span><h3>Grand Foyer</h3></div>
+      </div>
+    </div>
+
+    <div class="load-more-container">
+      <button class="btn load-more-btn" id="loadMoreBtn">Load More</button>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-content reveal">
+      <h2>Love What You See?</h2>
+      <p>Let's create your own collection of timeless moments.</p>
+      <a href="contact.html" class="btn">Get In Touch</a>
+    </div>
+  </section>
+
+
+
+  <footer class="footer">
+    <a href="index.html" class="logo"><img src="logo.svg" alt="Cletus Blaze Capture" class="logo-img"></a>
+    <ul class="footer-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="social-links">
+      <a href="https://instagram.com/cletusblazecapture" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://facebook.com/cletusblazecapture" target="_blank"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://twitter.com/cletusblaze" target="_blank"><i class="fab fa-twitter"></i></a>
+      <a href="https://pinterest.com/cletusblazecapture" target="_blank"><i class="fab fa-pinterest"></i></a>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 Cletus Blaze Capture. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
