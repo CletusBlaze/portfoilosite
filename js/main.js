@@ -1,3 +1,28 @@
+// DOM Content Loaded - Ensure all elements are available
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize mobile navigation
+  const navLinks = document.querySelector('.nav-links');
+  const navToggle = document.querySelector('.nav-toggle');
+  const navbar = document.querySelector('.navbar');
+  
+  if (navToggle && navLinks) {
+    // Ensure toggleNav is globally accessible
+    window.toggleNav = function() {
+      navLinks.classList.toggle('open');
+      document.body.classList.toggle('nav-open');
+      navToggle.classList.toggle('active');
+    };
+    
+    // Add both click and touch events
+    navToggle.addEventListener('click', window.toggleNav);
+    navToggle.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.toggleNav();
+    });
+  }
+});
+
 // Preloader - hide after load
 const preloader = document.querySelector('.preloader');
 if (preloader) {
