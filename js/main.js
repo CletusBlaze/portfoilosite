@@ -13,46 +13,88 @@ function throttle(fn, delay) {
   };
 }
 
-// Navbar scroll + hide/show (throttled)
+// Navbar scroll + hide/show (throttled) - Enhanced for mobile
 let lastScroll = 0;
-const navbar = document.querySelector('.navbar');
-window.addEventListener('scroll', throttle(() => {
-  const currentScroll = window.scrollY;
-  navbar.classList.toggle('scrolled', currentScroll > 50);
-  if (currentScroll > lastScroll && currentScroll > 200) {
-    navbar.classList.add('nav-hidden');
-  } else {
-    navbar.classList.remove('nav-hidden');
-  }
-  lastScroll = currentScroll;
-}, 100));
-
-// Mobile nav toggle
-const navLinks = document.querySelector('.nav-links');
-const navToggle = document.querySelector('.nav-toggle');
-
-function toggleNav() {
-  navLinks.classList.toggle('open');
-  document.body.classList.toggle('nav-open');
-  navToggle.classList.toggle('active');
+if (navbar) {
+  window.addEventListener('scroll', throttle(() => {
+    const currentScroll = window.scrollY;
+    navbar.classList.toggle('scrolled', currentScroll > 50);
+    
+    // Don't hide navbar if mobile menu is open
+    if (!navLinks || !navLinks.classList.contains('open')) {
+      if (currentScroll > lastScroll && currentScroll > 200) {
+        navbar.classList.add('nav-hidden');
+      } else {
+        navbar.classList.remove('nav-hidden');
+      }
+    }
+    lastScroll = currentScroll;
+  }, 100));
 }
 
-// Make toggleNav globally accessible
-window.toggleNav = toggleNav;
+// Mobile nav toggle - Fixed for touch devices
+const navLinks = document.querySelector('.nav-links');
+const navToggle = document.querySelector('.nav-toggle');
+const navbar = document.querySelector('.navbar');
 
-// Close nav on outside click or link click
-document.addEventListener('click', (e) => {
-  if (navLinks.classList.contains('open') && !e.target.closest('.nav-links') && !e.target.closest('.nav-toggle')) {
-    navLinks.classList.remove('open');
-    document.body.classList.remove('nav-open');
-  }
-});
-document.querySelectorAll('.nav-links a').forEach(link => {
-  link.addEventListener('click', () => {
-    navLinks.classList.remove('open');
-    document.body.classList.remove('nav-open');
+// Ensure elements exist before adding event listeners
+if (navToggle && navLinks) {
+  // Make toggleNav globally accessible and fix touch issues
+  window.toggleNav = function() {
+    navLinks.classList.toggle('open');
+    document.body.classList.toggle('nav-open');
+    navToggle.classList.toggle('active');
+  };
+  
+  // Add click event as backup
+  navToggle.addEventListener('click', window.toggleNav);
+  
+  // Add touch event for mobile
+  navToggle.addEventListener('touchend', function(e) {
+    e.preventDefault();
+    window.toggleNav();
   });
-});
+}
+
+// Close nav on outside click or link click - Enhanced for mobile
+if (navLinks) {
+  document.addEventListener('click', (e) => {
+    if (navLinks.classList.contains('open') && 
+        !e.target.closest('.nav-links') && 
+        !e.target.closest('.nav-toggle')) {
+      navLinks.classList.remove('open');
+      document.body.classList.remove('nav-open');
+      if (navToggle) navToggle.classList.remove('active');
+    }
+  });
+  
+  // Close on touch outside (mobile)
+  document.addEventListener('touchend', (e) => {
+    if (navLinks.classList.contains('open') && 
+        !e.target.closest('.nav-links') && 
+        !e.target.closest('.nav-toggle')) {
+      navLinks.classList.remove('open');
+      document.body.classList.remove('nav-open');
+      if (navToggle) navToggle.classList.remove('active');
+    }
+  });
+  
+  // Close nav when clicking on links
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      document.body.classList.remove('nav-open');
+      if (navToggle) navToggle.classList.remove('active');
+    });
+    
+    // Add touch event for mobile
+    link.addEventListener('touchend', () => {
+      navLinks.classList.remove('open');
+      document.body.classList.remove('nav-open');
+      if (navToggle) navToggle.classList.remove('active');
+    });
+  });
+}
 
 // Single IntersectionObserver for all reveals + stagger
 const revealObserver = new IntersectionObserver((entries) => {

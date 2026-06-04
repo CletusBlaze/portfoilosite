@@ -83,12 +83,51 @@ body.nav-open { overflow: hidden; }
 .nav-links a:hover { color: var(--gold); }
 .nav-links a:hover::after, .nav-links a.active::after { width: 20px; }
 .nav-links a.active { color: var(--gold); }
-.nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; width: 30px; height: 30px; justify-content: center; align-items: center; border-radius: 50%; transition: var(--transition); }
-.nav-toggle:hover { background: rgba(201,169,110,0.1); }
-.nav-toggle span { width: 20px; height: 2px; background: var(--white); transition: var(--transition); display: block; }
-body.nav-open .nav-toggle span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-body.nav-open .nav-toggle span:nth-child(2) { opacity: 0; }
-body.nav-open .nav-toggle span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  transition: var(--transition);
+  z-index: 1001;
+  background: transparent;
+  border: none;
+  padding: 0;
+  touch-action: manipulation;
+}
+
+.nav-toggle:hover {
+  background: rgba(201,169,110,0.1);
+}
+
+.nav-toggle span {
+  width: 20px;
+  height: 2px;
+  background: var(--white);
+  transition: var(--transition);
+  display: block;
+  border-radius: 1px;
+}
+
+.nav-toggle.active span:nth-child(1),
+body.nav-open .nav-toggle span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.nav-toggle.active span:nth-child(2),
+body.nav-open .nav-toggle span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle.active span:nth-child(3),
+body.nav-open .nav-toggle span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
 
 /* HERO */
 .hero {
