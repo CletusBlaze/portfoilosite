@@ -266,16 +266,28 @@ const counterObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       const target = entry.target;
+      
+      // Prevent multiple animations
+      if (target.dataset.animated === 'true') return;
+      target.dataset.animated = 'true';
+      
       const text = target.textContent;
       const num = parseInt(text);
       const suffix = text.replace(/[0-9]/g, '');
       let current = 0;
       const step = Math.ceil(num / 40);
+      
       const timer = setInterval(() => {
         current += step;
-        if (current >= num) { current = num; clearInterval(timer); }
+        if (current >= num) { 
+          current = num; 
+          clearInterval(timer);
+        }
         target.textContent = current + suffix;
       }, 40);
+      
+      // Store timer for cleanup if needed
+      target.dataset.timer = timer;
       counterObserver.unobserve(target);
     }
   });
@@ -291,13 +303,28 @@ window.addEventListener('scroll', throttle(() => {
   progressBar.style.width = progress + '%';
 }, 50));
 
-// WhatsApp button
+// WhatsApp booking buttons - Enhanced
 const whatsapp = document.createElement('a');
-whatsapp.href = 'https://wa.me/2348059989192?text=Hi%20Cletus%2C%20I%27m%20interested%20in%20booking%20a%20session';
+whatsapp.href = 'https://wa.me/2348059989192?text=Hi%20Cletus%2C%20I%27m%20interested%20in%20booking%20a%20photography%20session.%20Please%20send%20me%20more%20details.';
 whatsapp.target = '_blank';
 whatsapp.classList.add('whatsapp-btn');
 whatsapp.innerHTML = '<i class="fab fa-whatsapp"></i>';
+whatsapp.title = 'Book via WhatsApp - Quick Response!';
 document.body.appendChild(whatsapp);
+
+// Add WhatsApp booking to all CTA buttons
+document.querySelectorAll('.btn').forEach(btn => {
+  if (btn.textContent.includes('Book') || btn.textContent.includes('Get')) {
+    btn.addEventListener('click', (e) => {
+      if (btn.getAttribute('href') === 'contact.html') {
+        e.preventDefault();
+        // Open WhatsApp with booking message
+        const message = `Hi Cletus! I'm interested in the ${btn.closest('.pricing-card')?.querySelector('h3')?.textContent || 'photography'} package. Can you give me more details?`;
+        window.open(`https://wa.me/2348059989192?text=${encodeURIComponent(message)}`, '_blank');
+      }
+    });
+  }
+});
 
 // Before/After Slider
 const baSlider = document.getElementById('baSlider');
@@ -312,19 +339,37 @@ if (baSlider && baHandle && baBefore) {
     baHandle.style.left = pos + '%';
   };
   baSlider.addEventListener('mousedown', () => isDragging = true);
-  baSlider.addEventListener('touchstart', () => isDragging = true);
+  baSlider.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    e.preventDefault();
+  }, { passive: false });
   document.addEventListener('mouseup', () => isDragging = false);
-  document.addEventListener('touchend', () => isDragging = false);
+  document.addEventListener('touchend', (e) => {
+    isDragging = false;
+    e.preventDefault();
+  }, { passive: false });
   baSlider.addEventListener('mousemove', (e) => { if (isDragging) moveSlider(e.clientX); });
-  baSlider.addEventListener('touchmove', (e) => { if (isDragging) moveSlider(e.touches[0].clientX); });
+  baSlider.addEventListener('touchmove', (e) => {
+    if (isDragging) {
+      e.preventDefault();
+      moveSlider(e.touches[0].clientX);
+    }
+  }, { passive: false });
   baSlider.addEventListener('click', (e) => moveSlider(e.clientX));
 }
 
-// Dark/Light Mode
-const themeToggle = document.createElement('div');
-themeToggle.classList.add('theme-toggle');
-themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-document.body.appendChild(themeToggle);
+// Dark/Light Mode - Updated for navbar position
+let themeToggle = document.getElementById('themeToggleNav');
+if (!themeToggle) {
+  // Fallback: create old style if navbar version not found
+  themeToggle = document.createElement('div');
+  themeToggle.classList.add('theme-toggle');
+  themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+  document.body.appendChild(themeToggle);
+} else {
+  themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+}
+
 if (localStorage.getItem('theme') === 'light') {
   document.body.classList.add('light-mode');
   themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
@@ -387,17 +432,104 @@ if (carouselTrack && carouselPrev && carouselNext) {
   });
 }
 
-// Page Transitions (fast - 300ms)
+// Page Transitions (fast - 300ms) - with accessibility support
 const pageTransition = document.querySelector('.page-transition');
 if (pageTransition) {
+  // Check for reduced motion preference
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  
   document.querySelectorAll('a[href]').forEach(link => {
     if (link.hostname === window.location.hostname && !link.hash && link.target !== '_blank') {
       link.addEventListener('click', (e) => {
         e.preventDefault();
         const href = link.href;
-        pageTransition.classList.add('active');
-        setTimeout(() => { window.location.href = href; }, 300);
+        
+        if (prefersReducedMotion) {
+          // Skip transition for users who prefer reduced motion
+          window.location.href = href;
+        } else {
+          pageTransition.classList.add('active');
+          // Announce page change to screen readers
+          const announcement = document.createElement('div');
+          announcement.setAttribute('aria-live', 'polite');
+          announcement.setAttribute('aria-atomic', 'true');
+          announcement.textContent = 'Navigating to new page';
+          announcement.style.position = 'absolute';
+          announcement.style.left = '-10000px';
+          document.body.appendChild(announcement);
+          
+          setTimeout(() => {
+            window.location.href = href;
+            document.body.removeChild(announcement);
+          }, 300);
+        }
       });
     }
   });
 }
+
+// Quote Calculator Functions
+function updateQuoteTotal() {
+  const serviceSelect = document.getElementById('serviceType');
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  
+  if (!serviceSelect) return;
+  
+  let total = parseInt(serviceSelect.value) || 0;
+  
+  checkboxes.forEach(checkbox => {
+    if (checkbox.checked) {
+      total += parseInt(checkbox.value) || 0;
+    }
+  });
+  
+  const totalElement = document.getElementById('totalPrice');
+  if (totalElement) {
+    totalElement.textContent = '₦' + total.toLocaleString();
+  }
+}
+
+function sendQuoteToWhatsApp() {
+  const serviceSelect = document.getElementById('serviceType');
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  const totalElement = document.getElementById('totalPrice');
+  
+  if (!serviceSelect || !serviceSelect.value) {
+    alert('Please select a service first!');
+    return;
+  }
+  
+  let message = `Hi Cletus! I used your quote calculator and got this estimate:\n\n`;
+  message += `Service: ${serviceSelect.options[serviceSelect.selectedIndex].text}\n`;
+  
+  let addOns = [];
+  checkboxes.forEach(checkbox => {
+    if (checkbox.checked) {
+      const label = checkbox.parentElement.textContent.trim();
+      addOns.push(label);
+    }
+  });
+  
+  if (addOns.length > 0) {
+    message += `Add-ons: ${addOns.join(', ')}\n`;
+  }
+  
+  message += `\nEstimated Total: ${totalElement.textContent}\n\n`;
+  message += `Please confirm this pricing and availability. Thank you!`;
+  
+  window.open(`https://wa.me/2348059989192?text=${encodeURIComponent(message)}`, '_blank');
+}
+
+// Initialize quote calculator if elements exist
+document.addEventListener('DOMContentLoaded', () => {
+  const serviceSelect = document.getElementById('serviceType');
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  
+  if (serviceSelect) {
+    serviceSelect.addEventListener('change', updateQuoteTotal);
+  }
+  
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', updateQuoteTotal);
+  });
+});

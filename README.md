@@ -10,7 +10,7 @@ A modern, dark-themed luxury photography portfolio website built with vanilla HT
 |------|------|-------------|
 | Home | `index.html` | Hero with typing animation, featured work, services, testimonials, marquee, before/after slider, carousel, Instagram feed, CTA |
 | Portfolio | `portfolio.html` | Filterable masonry gallery (5 categories) with Load More button and lightbox |
-| Pricing | `pricing.html` | Photography & wedding packages with tiered pricing cards |
+| Pricing | `pricing.html` | Photography, wedding & video packages with tiered pricing cards, instant quote calculator |
 | About | `about.html` | Bio, stats counter, why choose us, process steps, testimonials |
 | Contact | `contact.html` | Contact form (Formspree), FAQ accordion, Google Maps embed |
 | 404 | `404.html` | Custom animated error page |
@@ -38,6 +38,7 @@ A modern, dark-themed luxury photography portfolio website built with vanilla HT
 - **Testimonials** — Client cards with profile images and quote styling
 - **Trusted By** — Auto-scrolling infinite brand marquee
 - **Before & After** — Draggable mouse/touch comparison slider
+- **Quick Booking** — 6 popular Nigerian services (Traditional Wedding, White Wedding, Naming Ceremony, Graduation Photos, Corporate Headshots, Birthday Photoshoot) with direct WhatsApp links
 - **More Captures** — Touch-swipeable image carousel (3/2/1 per view) with hover zoom + button pulse animation
 - **Instagram Feed** — 6-image grid with hover overlay linking to Instagram
 - **CTA** — Parallax call-to-action with animated background pulse
@@ -66,8 +67,11 @@ A modern, dark-themed luxury photography portfolio website built with vanilla HT
 - 5 testimonial cards
 
 ### Pricing Page
-- Photography packages (Basic ₦50K, Premium ₦120K, Luxury ₦250K)
-- Wedding packages (Silver ₦200K, Gold ₦400K, Platinum ₦700K)
+- Photography packages (Basic ₦25K, Premium ₦50K, Luxury ₦85K)
+- Wedding packages (Silver ₦200K, Gold ₦350K, Platinum ₦500K) 
+- Video packages (Basic ₦80K, Premium ₦150K, Luxury ₦300K)
+- Event & special occasion packages (Corporate ₦75K, Burial coverage ₦450K-₦550K)
+- **Instant Quote Calculator** — Real-time pricing with add-on services and WhatsApp integration
 - "Most Popular" / "Best Value" badges on featured cards
 - Custom package CTA
 
@@ -164,6 +168,8 @@ cletus-blaze-capture/
 | Theme Toggle | Light/dark mode with sun/moon icon, saved to localStorage |
 | Page Transitions | ScaleY animation between internal page navigations (300ms) |
 | Contact Form | Formspree fetch submission with inline success/error feedback |
+| **Quick Booking** | 6 Nigerian photography services with direct WhatsApp booking links |
+| **Quote Calculator** | Interactive pricing calculator with real-time updates and WhatsApp quote sharing |
 | WhatsApp Button | Fixed button linking to WhatsApp with pre-filled booking message |
 
 ---
@@ -204,7 +210,7 @@ To change the receiving email, update the form endpoint on [formspree.io](https:
 - **Email:** cletusblazecapture@gmail.com
 - **Instagram:** @cletusblazecapture
 - **WhatsApp:** Direct link with pre-filled booking message
-- **Location:** Lagos, Nigeria
+- **Location:** Benin City, Edo State, Nigeria
 - **Hours:** Mon - Sat: 9:00 AM - 6:00 PM
 
 ---
