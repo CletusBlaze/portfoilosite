@@ -1,0 +1,34 @@
+{
+  "name": "cletus-blaze-capture",
+  "version": "1.0.0",
+  "description": "Professional luxury photography website for Cletus Blaze Capture",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python -m http.server 8000 || npx serve .",
+    "deploy": "netlify deploy --prod --dir .",
+    "build": "echo 'Static site - no build required'",
+    "optimize": "node scripts/optimize.js"
+  },
+  "keywords": [
+    "photography",
+    "wedding",
+    "portrait",
+    "luxury",
+    "nigeria",
+    "benin-city",
+    "static-website"
+  ],
+  "author": "Cletus Blaze",
+  "license": "MIT",
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CletusBlaze/portfoilosite.git"
+  },
+  "homepage": "https://cletusblazecapture.netlify.app",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

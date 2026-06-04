@@ -1,0 +1,14 @@
+# Redirect /home to root
+/home / 301
+
+# Force HTTPS
+http://cletusblazecapture.netlify.app/* https://cletusblazecapture.netlify.app/:splat 301!
+
+# Clean URLs (optional - remove .html extensions)
+/portfolio /portfolio.html 200
+/pricing /pricing.html 200
+/about /about.html 200
+/contact /contact.html 200
+
+# 404 fallback
+/* /404.html 404

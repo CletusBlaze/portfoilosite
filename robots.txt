@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /_redirects
+Disallow: /netlify.toml
+
+# Sitemap
+Sitemap: https://cletusblazecapture.netlify.app/sitemap.xml
+
+# Crawl delay
+Crawl-delay: 1

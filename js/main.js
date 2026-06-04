@@ -29,10 +29,16 @@ window.addEventListener('scroll', throttle(() => {
 
 // Mobile nav toggle
 const navLinks = document.querySelector('.nav-links');
+const navToggle = document.querySelector('.nav-toggle');
+
 function toggleNav() {
   navLinks.classList.toggle('open');
   document.body.classList.toggle('nav-open');
+  navToggle.classList.toggle('active');
 }
+
+// Make toggleNav globally accessible
+window.toggleNav = toggleNav;
 
 // Close nav on outside click or link click
 document.addEventListener('click', (e) => {
