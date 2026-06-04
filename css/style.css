@@ -99,6 +99,7 @@ body.nav-open { overflow: hidden; }
   border: none;
   padding: 0;
   touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .nav-toggle:hover {
@@ -112,20 +113,18 @@ body.nav-open { overflow: hidden; }
   transition: var(--transition);
   display: block;
   border-radius: 1px;
+  pointer-events: none;
 }
 
-.nav-toggle.active span:nth-child(1),
-body.nav-open .nav-toggle span:nth-child(1) {
+.nav-toggle.active span:nth-child(1) {
   transform: rotate(45deg) translate(5px, 5px);
 }
 
-.nav-toggle.active span:nth-child(2),
-body.nav-open .nav-toggle span:nth-child(2) {
+.nav-toggle.active span:nth-child(2) {
   opacity: 0;
 }
 
-.nav-toggle.active span:nth-child(3),
-body.nav-open .nav-toggle span:nth-child(3) {
+.nav-toggle.active span:nth-child(3) {
   transform: rotate(-45deg) translate(5px, -5px);
 }
 

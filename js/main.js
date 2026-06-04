@@ -1,29 +1,77 @@
-// DOM Content Loaded - Ensure all elements are available
-document.addEventListener('DOMContentLoaded', function() {
-  // Initialize mobile navigation
-  const navLinks = document.querySelector('.nav-links');
-  const navToggle = document.querySelector('.nav-toggle');
-  const navbar = document.querySelector('.navbar');
+// Mobile Navigation - Completely Rewritten
+(function() {
+  'use strict';
   
-  if (navToggle && navLinks) {
-    // Ensure toggleNav is globally accessible
-    window.toggleNav = function() {
-      navLinks.classList.toggle('open');
-      document.body.classList.toggle('nav-open');
-      navToggle.classList.toggle('active');
-    };
+  function initMobileNav() {
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    const body = document.body;
     
-    // Add both click and touch events
-    navToggle.addEventListener('click', window.toggleNav);
-    navToggle.addEventListener('touchend', function(e) {
+    if (!navToggle || !navLinks) return;
+    
+    // Toggle function
+    function toggleNav(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      
+      const isOpen = navLinks.classList.contains('open');
+      
+      if (isOpen) {
+        navLinks.classList.remove('open');
+        body.classList.remove('nav-open');
+        navToggle.classList.remove('active');
+        navToggle.setAttribute('aria-expanded', 'false');
+      } else {
+        navLinks.classList.add('open');
+        body.classList.add('nav-open');
+        navToggle.classList.add('active');
+        navToggle.setAttribute('aria-expanded', 'true');
+      }
+    }
+    
+    // Add event listeners
+    navToggle.addEventListener('click', toggleNav);
+    navToggle.addEventListener('touchstart', function(e) {
       e.preventDefault();
-      e.stopPropagation();
-      window.toggleNav();
+      toggleNav();
     });
+    
+    // Close nav when clicking links
+    const navLinksItems = navLinks.querySelectorAll('a');
+    navLinksItems.forEach(function(link) {
+      link.addEventListener('click', function() {
+        navLinks.classList.remove('open');
+        body.classList.remove('nav-open');
+        navToggle.classList.remove('active');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+    
+    // Close nav when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!navLinks.contains(e.target) && !navToggle.contains(e.target)) {
+        if (navLinks.classList.contains('open')) {
+          navLinks.classList.remove('open');
+          body.classList.remove('nav-open');
+          navToggle.classList.remove('active');
+          navToggle.setAttribute('aria-expanded', 'false');
+        }
+      }
+    });
+    
+    // Set initial ARIA state
+    navToggle.setAttribute('aria-expanded', 'false');
   }
-});
-
-// Preloader - hide after load
+  
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMobileNav);
+  } else {
+    initMobileNav();
+  }
+})();
 const preloader = document.querySelector('.preloader');
 if (preloader) {
   window.addEventListener('load', () => preloader.classList.add('hidden'));
@@ -38,13 +86,17 @@ function throttle(fn, delay) {
   };
 }
 
-// Navbar scroll + hide/show (throttled) - Enhanced for mobile
+// Navbar scroll + hide/show (throttled)
 let lastScroll = 0;
-if (navbar) {
+(function() {
+  const navbar = document.querySelector('.navbar');
+  if (!navbar) return;
+  
   window.addEventListener('scroll', throttle(() => {
     const currentScroll = window.scrollY;
     navbar.classList.toggle('scrolled', currentScroll > 50);
     
+    const navLinks = document.getElementById('navLinks');
     // Don't hide navbar if mobile menu is open
     if (!navLinks || !navLinks.classList.contains('open')) {
       if (currentScroll > lastScroll && currentScroll > 200) {
@@ -55,71 +107,11 @@ if (navbar) {
     }
     lastScroll = currentScroll;
   }, 100));
-}
+})();
 
-// Mobile nav toggle - Fixed for touch devices
-const navLinks = document.querySelector('.nav-links');
-const navToggle = document.querySelector('.nav-toggle');
-const navbar = document.querySelector('.navbar');
+// Preloader - hide after load
 
-// Ensure elements exist before adding event listeners
-if (navToggle && navLinks) {
-  // Make toggleNav globally accessible and fix touch issues
-  window.toggleNav = function() {
-    navLinks.classList.toggle('open');
-    document.body.classList.toggle('nav-open');
-    navToggle.classList.toggle('active');
-  };
-  
-  // Add click event as backup
-  navToggle.addEventListener('click', window.toggleNav);
-  
-  // Add touch event for mobile
-  navToggle.addEventListener('touchend', function(e) {
-    e.preventDefault();
-    window.toggleNav();
-  });
-}
 
-// Close nav on outside click or link click - Enhanced for mobile
-if (navLinks) {
-  document.addEventListener('click', (e) => {
-    if (navLinks.classList.contains('open') && 
-        !e.target.closest('.nav-links') && 
-        !e.target.closest('.nav-toggle')) {
-      navLinks.classList.remove('open');
-      document.body.classList.remove('nav-open');
-      if (navToggle) navToggle.classList.remove('active');
-    }
-  });
-  
-  // Close on touch outside (mobile)
-  document.addEventListener('touchend', (e) => {
-    if (navLinks.classList.contains('open') && 
-        !e.target.closest('.nav-links') && 
-        !e.target.closest('.nav-toggle')) {
-      navLinks.classList.remove('open');
-      document.body.classList.remove('nav-open');
-      if (navToggle) navToggle.classList.remove('active');
-    }
-  });
-  
-  // Close nav when clicking on links
-  document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-      navLinks.classList.remove('open');
-      document.body.classList.remove('nav-open');
-      if (navToggle) navToggle.classList.remove('active');
-    });
-    
-    // Add touch event for mobile
-    link.addEventListener('touchend', () => {
-      navLinks.classList.remove('open');
-      document.body.classList.remove('nav-open');
-      if (navToggle) navToggle.classList.remove('active');
-    });
-  });
-}
 
 // Single IntersectionObserver for all reveals + stagger
 const revealObserver = new IntersectionObserver((entries) => {
