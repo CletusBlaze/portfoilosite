@@ -1,75 +1,89 @@
-// Mobile Navigation - Completely Rewritten
+/*=============== NAVIGATION ===============*/
 (function() {
   'use strict';
   
-  function initMobileNav() {
-    const navToggle = document.getElementById('navToggle');
-    const navLinks = document.getElementById('navLinks');
-    const body = document.body;
-    
-    if (!navToggle || !navLinks) return;
-    
-    // Toggle function
-    function toggleNav(e) {
-      if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      
-      const isOpen = navLinks.classList.contains('open');
-      
-      if (isOpen) {
-        navLinks.classList.remove('open');
-        body.classList.remove('nav-open');
-        navToggle.classList.remove('active');
-        navToggle.setAttribute('aria-expanded', 'false');
-      } else {
-        navLinks.classList.add('open');
-        body.classList.add('nav-open');
-        navToggle.classList.add('active');
-        navToggle.setAttribute('aria-expanded', 'true');
-      }
+  // Navigation elements
+  const navMenu = document.getElementById('nav-menu');
+  const navToggle = document.getElementById('nav-toggle');
+  const navClose = document.getElementById('nav-close');
+  const navLinks = document.querySelectorAll('.nav__link');
+  const nav = document.querySelector('.nav');
+  
+  // Show menu
+  function showMenu() {
+    if (navMenu) {
+      navMenu.classList.add('show-menu');
     }
-    
-    // Add event listeners
-    navToggle.addEventListener('click', toggleNav);
-    navToggle.addEventListener('touchstart', function(e) {
-      e.preventDefault();
-      toggleNav();
-    });
-    
-    // Close nav when clicking links
-    const navLinksItems = navLinks.querySelectorAll('a');
-    navLinksItems.forEach(function(link) {
-      link.addEventListener('click', function() {
-        navLinks.classList.remove('open');
-        body.classList.remove('nav-open');
-        navToggle.classList.remove('active');
-        navToggle.setAttribute('aria-expanded', 'false');
-      });
-    });
-    
-    // Close nav when clicking outside
-    document.addEventListener('click', function(e) {
-      if (!navLinks.contains(e.target) && !navToggle.contains(e.target)) {
-        if (navLinks.classList.contains('open')) {
-          navLinks.classList.remove('open');
-          body.classList.remove('nav-open');
-          navToggle.classList.remove('active');
-          navToggle.setAttribute('aria-expanded', 'false');
-        }
-      }
-    });
-    
-    // Set initial ARIA state
-    navToggle.setAttribute('aria-expanded', 'false');
   }
   
-  // Initialize when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initMobileNav);
-  } else {
-    initMobileNav();
+  // Hide menu
+  function hideMenu() {
+    if (navMenu) {
+      navMenu.classList.remove('show-menu');
+    }
+  }
+  
+  // Toggle menu
+  if (navToggle) {
+    navToggle.addEventListener('click', showMenu);
+  }
+  
+  // Close menu
+  if (navClose) {
+    navClose.addEventListener('click', hideMenu);
+  }
+  
+  // Close menu when clicking nav links
+  navLinks.forEach(function(link) {
+    link.addEventListener('click', hideMenu);
+  });
+  
+  // Close menu when clicking outside
+  document.addEventListener('click', function(e) {
+    if (navMenu && navMenu.classList.contains('show-menu')) {
+      if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+        hideMenu();
+      }
+    }
+  });
+  
+  // Scroll header
+  function scrollHeader() {
+    if (nav) {
+      if (window.scrollY >= 50) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    }
+  }
+  
+  window.addEventListener('scroll', scrollHeader);
+  
+  // Theme toggle
+  const themeToggle = document.getElementById('theme-toggle');
+  const body = document.body;
+  
+  if (themeToggle) {
+    // Check for saved theme
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme === 'light') {
+      body.classList.add('light-mode');
+      themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+    }
+    
+    themeToggle.addEventListener('click', function() {
+      body.classList.toggle('light-mode');
+      const isLight = body.classList.contains('light-mode');
+      
+      if (isLight) {
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        localStorage.setItem('theme', 'light');
+      } else {
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        localStorage.setItem('theme', 'dark');
+      }
+    });
   }
 })();
 const preloader = document.querySelector('.preloader');
@@ -86,28 +100,7 @@ function throttle(fn, delay) {
   };
 }
 
-// Navbar scroll + hide/show (throttled)
-let lastScroll = 0;
-(function() {
-  const navbar = document.querySelector('.navbar');
-  if (!navbar) return;
-  
-  window.addEventListener('scroll', throttle(() => {
-    const currentScroll = window.scrollY;
-    navbar.classList.toggle('scrolled', currentScroll > 50);
-    
-    const navLinks = document.getElementById('navLinks');
-    // Don't hide navbar if mobile menu is open
-    if (!navLinks || !navLinks.classList.contains('open')) {
-      if (currentScroll > lastScroll && currentScroll > 200) {
-        navbar.classList.add('nav-hidden');
-      } else {
-        navbar.classList.remove('nav-hidden');
-      }
-    }
-    lastScroll = currentScroll;
-  }, 100));
-})();
+
 
 // Preloader - hide after load
 
@@ -423,28 +416,7 @@ if (baSlider && baHandle && baBefore) {
   baSlider.addEventListener('click', (e) => moveSlider(e.clientX));
 }
 
-// Dark/Light Mode - Updated for navbar position
-let themeToggle = document.getElementById('themeToggleNav');
-if (!themeToggle) {
-  // Fallback: create old style if navbar version not found
-  themeToggle = document.createElement('div');
-  themeToggle.classList.add('theme-toggle');
-  themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-  document.body.appendChild(themeToggle);
-} else {
-  themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-}
 
-if (localStorage.getItem('theme') === 'light') {
-  document.body.classList.add('light-mode');
-  themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-}
-themeToggle.addEventListener('click', () => {
-  document.body.classList.toggle('light-mode');
-  const isLight = document.body.classList.contains('light-mode');
-  themeToggle.innerHTML = isLight ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-  localStorage.setItem('theme', isLight ? 'light' : 'dark');
-});
 
 // Load More Button
 const loadMoreBtn = document.getElementById('loadMoreBtn');
