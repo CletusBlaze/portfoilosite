@@ -37,42 +37,87 @@
   <div class="page-transition"></div>
   <div class="preloader"><div class="preloader-spinner"></div></div>
 
-  <!-- HEADER -->
+  <!-- ADVANCED HEADER -->
   <header class="header">
-    <nav class="nav">
-      <a href="/" class="nav__logo">
-        <img src="logo.svg" alt="Cletus Blaze Capture">
-      </a>
-      
-      <div class="nav__menu" id="nav-menu">
-        <ul class="nav__list">
-          <li class="nav__item">
-            <a href="/" class="nav__link nav__link--active">Home</a>
-          </li>
-          <li class="nav__item">
-            <a href="portfolio.html" class="nav__link">Portfolio</a>
-          </li>
-          <li class="nav__item">
-            <a href="pricing.html" class="nav__link">Pricing</a>
-          </li>
-          <li class="nav__item">
-            <a href="about.html" class="nav__link">About</a>
-          </li>
-          <li class="nav__item">
-            <a href="contact.html" class="nav__link">Contact</a>
-          </li>
-        </ul>
-        <div class="nav__close" id="nav-close">
-          <i class="fas fa-times"></i>
+    <nav class="navbar">
+      <div class="navbar-container">
+        <!-- Logo -->
+        <div class="navbar-brand">
+          <a href="/" class="brand-link">
+            <img src="logo.svg" alt="Cletus Blaze Capture" class="brand-logo">
+            <span class="brand-text">Cletus Blaze</span>
+          </a>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <div class="navbar-nav">
+          <a href="/" class="nav-item active" data-text="Home">Home</a>
+          <a href="portfolio.html" class="nav-item" data-text="Portfolio">Portfolio</a>
+          <a href="pricing.html" class="nav-item" data-text="Pricing">Pricing</a>
+          <a href="about.html" class="nav-item" data-text="About">About</a>
+          <a href="contact.html" class="nav-item" data-text="Contact">Contact</a>
+        </div>
+
+        <!-- Actions -->
+        <div class="navbar-actions">
+          <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+            <div class="theme-icon">
+              <i class="fas fa-sun sun-icon"></i>
+              <i class="fas fa-moon moon-icon"></i>
+            </div>
+          </button>
+          
+          <button class="menu-btn" id="menuToggle" aria-label="Toggle menu">
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+          </button>
         </div>
       </div>
-      
-      <div class="nav__actions">
-        <button class="theme-toggle" id="theme-toggle">
-          <i class="fas fa-sun"></i>
-        </button>
-        <div class="nav__toggle" id="nav-toggle">
-          <i class="fas fa-bars"></i>
+
+      <!-- Mobile Menu Overlay -->
+      <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-content">
+          <div class="mobile-nav">
+            <a href="/" class="mobile-nav-item active">
+              <span class="mobile-nav-text">Home</span>
+              <span class="mobile-nav-number">01</span>
+            </a>
+            <a href="portfolio.html" class="mobile-nav-item">
+              <span class="mobile-nav-text">Portfolio</span>
+              <span class="mobile-nav-number">02</span>
+            </a>
+            <a href="pricing.html" class="mobile-nav-item">
+              <span class="mobile-nav-text">Pricing</span>
+              <span class="mobile-nav-number">03</span>
+            </a>
+            <a href="about.html" class="mobile-nav-item">
+              <span class="mobile-nav-text">About</span>
+              <span class="mobile-nav-number">04</span>
+            </a>
+            <a href="contact.html" class="mobile-nav-item">
+              <span class="mobile-nav-text">Contact</span>
+              <span class="mobile-nav-number">05</span>
+            </a>
+          </div>
+          
+          <div class="mobile-menu-footer">
+            <div class="mobile-contact">
+              <p>Ready to capture your moments?</p>
+              <a href="tel:+2348059989192" class="mobile-phone">+234 805 998 9192</a>
+            </div>
+            <div class="mobile-social">
+              <a href="https://instagram.com/cletusblazecapture" target="_blank">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="https://facebook.com/cletusblazecapture" target="_blank">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="https://wa.me/2348059989192" target="_blank">
+                <i class="fab fa-whatsapp"></i>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </nav>
