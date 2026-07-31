@@ -24,7 +24,20 @@
     // Menu toggle
     if (menuToggle && mobileMenu) {
       menuToggle.addEventListener('click', toggleMobileMenu);
-      document.querySelectorAll('.mobile-nav-item').forEach(item => item.addEventListener('click', closeMobileMenu));
+      document.querySelectorAll('.mobile-nav-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+          const href = item.getAttribute('href') || '';
+          if (!href || href.startsWith('#') || href.startsWith('tel:') || href.startsWith('mailto:')) {
+            closeMobileMenu();
+          } else {
+            // Let page transition handle navigation; just reset overflow
+            body.style.overflow = '';
+            isMenuOpen = false;
+            mobileMenu.classList.remove('active');
+            menuToggle.classList.remove('active');
+          }
+        });
+      });
       
       // Close menu on outside click
       document.addEventListener('click', (e) => {
@@ -557,21 +570,18 @@ if (pageTransition) {
   
   document.querySelectorAll('a[href]').forEach(link => {
     const linkHref = link.getAttribute('href') || '';
-    if (link.hostname === window.location.hostname && !link.hash && link.target !== '_blank' && !linkHref.startsWith('tel:') && !linkHref.startsWith('mailto:')) {
+    const isExternal = link.target === '_blank' || linkHref.startsWith('tel:') || linkHref.startsWith('mailto:') || linkHref.startsWith('http') && !linkHref.startsWith(window.location.origin);
+    const isAnchor = link.hash && link.pathname === window.location.pathname;
+    if (!isExternal && !isAnchor && linkHref && linkHref !== '#') {
       link.addEventListener('click', (e) => {
         e.preventDefault();
+        // Always clear overflow in case mobile menu was open
+        document.body.style.overflow = '';
         const dest = link.href;
         if (prefersReducedMotion) {
           window.location.href = dest;
         } else {
           pageTransition.classList.add('active');
-          const announcement = document.createElement('div');
-          announcement.setAttribute('aria-live', 'polite');
-          announcement.setAttribute('aria-atomic', 'true');
-          announcement.textContent = 'Navigating to new page';
-          announcement.style.position = 'absolute';
-          announcement.style.left = '-10000px';
-          document.body.appendChild(announcement);
           setTimeout(() => { window.location.href = dest; }, 300);
         }
       });
