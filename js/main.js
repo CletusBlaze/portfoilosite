@@ -141,7 +141,7 @@
 
     navItems.forEach(item => {
       const href = item.getAttribute('href');
-      const isHome = (currentPage === '/' || currentPage.endsWith('/index.html')) && href === '/';
+      const isHome = (currentPage === '/' || currentPage.endsWith('/index.html') || currentPage.endsWith('index.html')) && (href === '/' || href === 'index.html');
       const isOther = href !== '/' && currentPage.endsWith(href);
       if (isHome || isOther) {
         item.classList.add('active');
