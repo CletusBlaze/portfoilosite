@@ -7,11 +7,9 @@
   const menuToggle = document.getElementById('menuToggle');
   const mobileMenu = document.getElementById('mobileMenu');
   const themeToggle = document.getElementById('themeToggle');
-  const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
   const body = document.body;
 
   let isMenuOpen = false;
-  let lastScrollTop = 0;
 
   // Initialize
   function init() {
@@ -26,11 +24,7 @@
     // Menu toggle
     if (menuToggle && mobileMenu) {
       menuToggle.addEventListener('click', toggleMobileMenu);
-      
-      // Close menu on mobile nav item click
-      mobileNavItems.forEach(item => {
-        item.addEventListener('click', closeMobileMenu);
-      });
+      document.querySelectorAll('.mobile-nav-item').forEach(item => item.addEventListener('click', closeMobileMenu));
       
       // Close menu on outside click
       document.addEventListener('click', (e) => {
@@ -69,16 +63,6 @@
     mobileMenu.classList.add('active');
     menuToggle.classList.add('active');
     body.style.overflow = 'hidden';
-    
-    // Animate menu items
-    setTimeout(() => {
-      mobileNavItems.forEach((item, index) => {
-        setTimeout(() => {
-          item.style.transform = 'translateY(0)';
-          item.style.opacity = '1';
-        }, index * 100);
-      });
-    }, 100);
   }
 
   function closeMobileMenu() {
@@ -86,12 +70,6 @@
     mobileMenu.classList.remove('active');
     menuToggle.classList.remove('active');
     body.style.overflow = '';
-    
-    // Reset menu items
-    mobileNavItems.forEach(item => {
-      item.style.transform = '';
-      item.style.opacity = '';
-    });
   }
 
   // Scroll Effects
@@ -106,7 +84,6 @@
         navbar.classList.toggle('scrolled', scrollTop > 50);
       }
       
-      lastScrollTop = scrollTop;
       ticking = false;
     }
 
@@ -144,18 +121,19 @@
     });
   }
 
-  // Active States
+  // Active States — HTML already sets active class; this syncs on direct URL access
   function setupActiveStates() {
     const currentPage = window.location.pathname;
     const navItems = document.querySelectorAll('.nav-item, .mobile-nav-item');
-    
+
     navItems.forEach(item => {
       const href = item.getAttribute('href');
-      
-      // Check for active page
-      if ((currentPage === '/' && href === '/') ||
-          (currentPage.includes(href) && href !== '/')) {
+      const isHome = (currentPage === '/' || currentPage.endsWith('/index.html')) && href === '/';
+      const isOther = href !== '/' && currentPage.endsWith(href);
+      if (isHome || isOther) {
         item.classList.add('active');
+      } else {
+        item.classList.remove('active');
       }
     });
   }
@@ -175,9 +153,7 @@
 
   // Resize handler
   const handleResize = debounce(() => {
-    if (window.innerWidth > 992 && isMenuOpen) {
-      closeMobileMenu();
-    }
+      if (window.innerWidth > 992 && isMenuOpen) closeMobileMenu();
   }, 250);
 
   window.addEventListener('resize', handleResize);
@@ -210,12 +186,6 @@ function throttle(fn, delay) {
     if (now - last >= delay) { last = now; fn(...args); }
   };
 }
-
-
-
-// Preloader - hide after load
-
-
 
 // Single IntersectionObserver for all reveals + stagger
 const revealObserver = new IntersectionObserver((entries) => {
@@ -392,6 +362,14 @@ backToTop.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
+// Shared form button reset
+function resetBtn(btn) {
+  btn.textContent = 'Send Message';
+  btn.style.background = '';
+  btn.style.color = '';
+  btn.style.pointerEvents = '';
+}
+
 // Contact form (Formspree)
 const contactForm = document.querySelector('.contact-form');
 if (contactForm) {
@@ -413,18 +391,10 @@ if (contactForm) {
       } else {
         btn.textContent = '✗ Failed. Try again.';
       }
-      setTimeout(() => {
-        btn.textContent = 'Send Message';
-        btn.style.background = '';
-        btn.style.color = '';
-        btn.style.pointerEvents = '';
-      }, 3000);
+      setTimeout(() => resetBtn(btn), 3000);
     }).catch(() => {
       btn.textContent = '✗ Error. Try again.';
-      setTimeout(() => {
-        btn.textContent = 'Send Message';
-        btn.style.pointerEvents = '';
-      }, 3000);
+      setTimeout(() => resetBtn(btn), 3000);
     });
   });
 }
@@ -442,17 +412,19 @@ const counterObserver = new IntersectionObserver((entries) => {
       
       const text = target.textContent;
       const num = parseInt(text);
-      const suffix = text.replace(/[0-9]/g, '');
+      const isK = text.includes('K');
+      const actualNum = isK ? num * 1000 : num;
+      const suffix = text.replace(/[0-9K]/g, '');
       let current = 0;
-      const step = Math.ceil(num / 40);
+      const step = Math.ceil(actualNum / 40);
       
       const timer = setInterval(() => {
         current += step;
-        if (current >= num) { 
-          current = num; 
+        if (current >= actualNum) { 
+          current = actualNum; 
           clearInterval(timer);
         }
-        target.textContent = current + suffix;
+        target.textContent = (isK ? Math.round(current / 1000) + 'K' : current) + suffix;
       }, 40);
       
       // Store timer for cleanup if needed
@@ -513,10 +485,9 @@ if (baSlider && baHandle && baBefore) {
     e.preventDefault();
   }, { passive: false });
   document.addEventListener('mouseup', () => isDragging = false);
-  document.addEventListener('touchend', (e) => {
+  document.addEventListener('touchend', () => {
     isDragging = false;
-    e.preventDefault();
-  }, { passive: false });
+  });
   baSlider.addEventListener('mousemove', (e) => { if (isDragging) moveSlider(e.clientX); });
   baSlider.addEventListener('touchmove', (e) => {
     if (isDragging) {
@@ -526,8 +497,6 @@ if (baSlider && baHandle && baBefore) {
   }, { passive: false });
   baSlider.addEventListener('click', (e) => moveSlider(e.clientX));
 }
-
-
 
 // Load More Button
 const loadMoreBtn = document.getElementById('loadMoreBtn');
@@ -587,17 +556,15 @@ if (pageTransition) {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   
   document.querySelectorAll('a[href]').forEach(link => {
-    if (link.hostname === window.location.hostname && !link.hash && link.target !== '_blank') {
+    const linkHref = link.getAttribute('href') || '';
+    if (link.hostname === window.location.hostname && !link.hash && link.target !== '_blank' && !linkHref.startsWith('tel:') && !linkHref.startsWith('mailto:')) {
       link.addEventListener('click', (e) => {
         e.preventDefault();
-        const href = link.href;
-        
+        const dest = link.href;
         if (prefersReducedMotion) {
-          // Skip transition for users who prefer reduced motion
-          window.location.href = href;
+          window.location.href = dest;
         } else {
           pageTransition.classList.add('active');
-          // Announce page change to screen readers
           const announcement = document.createElement('div');
           announcement.setAttribute('aria-live', 'polite');
           announcement.setAttribute('aria-atomic', 'true');
@@ -605,11 +572,7 @@ if (pageTransition) {
           announcement.style.position = 'absolute';
           announcement.style.left = '-10000px';
           document.body.appendChild(announcement);
-          
-          setTimeout(() => {
-            window.location.href = href;
-            document.body.removeChild(announcement);
-          }, 300);
+          setTimeout(() => { window.location.href = dest; }, 300);
         }
       });
     }
@@ -668,16 +631,18 @@ function sendQuoteToWhatsApp() {
   window.open(`https://wa.me/2348059989192?text=${encodeURIComponent(message)}`, '_blank');
 }
 
-// Initialize quote calculator if elements exist
-document.addEventListener('DOMContentLoaded', () => {
-  const serviceSelect = document.getElementById('serviceType');
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-  
-  if (serviceSelect) {
-    serviceSelect.addEventListener('change', updateQuoteTotal);
-  }
-  
-  checkboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', updateQuoteTotal);
+// Expose quote functions globally (called from inline onclick in pricing.html)
+window.updateQuoteTotal = updateQuoteTotal;
+window.sendQuoteToWhatsApp = sendQuoteToWhatsApp;
+
+// Initialize quote calculator event listeners
+if (document.getElementById('serviceType')) {
+  document.addEventListener('DOMContentLoaded', () => {
+    const serviceSelect = document.getElementById('serviceType');
+    if (serviceSelect) {
+      document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.addEventListener('change', updateQuoteTotal));
+      serviceSelect.addEventListener('change', updateQuoteTotal);
+      updateQuoteTotal();
+    }
   });
-});
+}
