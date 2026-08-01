@@ -570,12 +570,11 @@ if (pageTransition) {
   
   document.querySelectorAll('a[href]').forEach(link => {
     const linkHref = link.getAttribute('href') || '';
-    const isExternal = link.target === '_blank' || linkHref.startsWith('tel:') || linkHref.startsWith('mailto:') || linkHref.startsWith('http') && !linkHref.startsWith(window.location.origin);
-    const isAnchor = link.hash && link.pathname === window.location.pathname;
-    if (!isExternal && !isAnchor && linkHref && linkHref !== '#') {
+    const isExternal = link.target === '_blank' || linkHref.startsWith('tel:') || linkHref.startsWith('mailto:') || (linkHref.startsWith('http') && !linkHref.startsWith(window.location.origin));
+    const isAnchor = linkHref.startsWith('#');
+    if (!isExternal && !isAnchor && linkHref) {
       link.addEventListener('click', (e) => {
         e.preventDefault();
-        // Always clear overflow in case mobile menu was open
         document.body.style.overflow = '';
         const dest = link.href;
         if (prefersReducedMotion) {
